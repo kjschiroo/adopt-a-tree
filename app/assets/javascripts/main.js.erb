@@ -213,7 +213,36 @@ $(function() {
         args.activeInfoWindow.open(map, args.activeMarker);
       }
     });
+  }
 
+  function adoptThing(args){
+    $.ajax({
+      type: 'POST',
+      url: '/things.json',
+      data: {
+        '_method': 'patch',
+        'id': args.thing_id,
+        'utf8': '✓',
+        'authenticity_token': args.authenticity_token,
+        'thing': {
+          'user_id': args.user_id,
+          'name': args.name
+        }
+      },
+      error: function(jqXHR) {
+      },
+      success: function(data) {
+        active_things = {
+          activeThingId: activeThingId, 
+          activeInfoWindow: activeInfoWindow, 
+          activeMarker: activeMarker
+        };
+	next = function(){
+          congratulateAdopter(active_things);
+        };
+        askForToken(active_things, next);
+      }
+    });
   }
   $('#combo-form input[type="radio"]').live('click', function() {
     var radioInput = $(this);
@@ -411,34 +440,13 @@ $(function() {
   $('#adoption_form').live('submit', function() {
     var submitButton = $("#adoption_form input[type='submit']");
     $(submitButton).attr("disabled", true);
-    $.ajax({
-      type: 'POST',
-      url: '/things.json',
-      data: {
-        '_method': 'patch',
-        'id': $('#thing_id').val(),
-        'utf8': '✓',
-        'authenticity_token': $('#adoption_form input[name="authenticity_token"]').val(),
-        'thing': {
-          'user_id': $('#thing_user_id').val(),
-          'name': $('#thing_name').val()
-        }
-      },
-      error: function(jqXHR) {
-        $(submitButton).attr("disabled", false);
-      },
-      success: function(data) {
-        active_things = {
-          activeThingId: activeThingId, 
-          activeInfoWindow: activeInfoWindow, 
-          activeMarker: activeMarker
-        };
-	next = function(){
-          congratulateAdopter(active_things);
-        };
-        askForToken(active_things, next);
-      }
+    adoptThing({
+     thing_id: $('#thing_id').val(),
+     autheticity_token: $('#adoption_form input[name="authenticity_token"]').val(),
+     user_id: ('#thing_user_id').val(),
+     name: $('#thing_name').val()
     });
+    
     return false;
   });
   $('#token_code_no').live('click', function(e){
@@ -484,6 +492,34 @@ $(function() {
         activeInfoWindow.open(map, activeMarker);
       },
       success: function(data){
+        $.ajax({
+          type: 'POST',
+          url: '/things.json',
+          data: {
+            '_method': 'patch',
+            'id': $('#thing_id').val(),
+            'utf8': '✓',
+            'authenticity_token': $('#adoption_form input[name="authenticity_token"]').val(),
+            'thing': {
+              'user_id': $('#thing_user_id').val(),
+              'name': $('#thing_name').val()
+            }
+          },
+          error: function(jqXHR) {
+            $(submitButton).attr("disabled", false);
+          },
+          success: function(data) {
+          active_things = {
+          activeThingId: activeThingId, 
+          activeInfoWindow: activeInfoWindow, 
+          activeMarker: activeMarker
+        };
+	next = function(){
+          congratulateAdopter(active_things);
+        };
+        askForToken(active_things, next);
+      }
+    });
         active_things = {
           activeThingId: activeThingId, 
           activeInfoWindow: activeInfoWindow, 
