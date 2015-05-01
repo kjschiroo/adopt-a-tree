@@ -24,12 +24,12 @@ CMD ["/sbin/my_init"]
 # for features. Uncomment the features you want:
 #
 #   Build system and git.
-RUN /pd_build/utilities.sh
+#RUN /pd_build/utilities.sh
 #   Ruby support.
 #RUN /pd_build/ruby1.9.sh
 #RUN /pd_build/ruby2.0.sh
 #RUN /pd_build/ruby2.1.sh
-RUN /pd_build/ruby2.2.sh
+#RUN /pd_build/ruby2.2.sh
 #RUN /pd_build/jruby1.7.sh
 #   Python support.
 #RUN /pd_build/python.sh
@@ -37,6 +37,9 @@ RUN /pd_build/ruby2.2.sh
 #RUN /pd_build/nodejs.sh
 
 # ...put your own build instructions here...
+
+# upgrade to the latest Passenger version
+RUN apt-get update && apt-get upgrade
 
 # https://rossfairbanks.com/2015/03/06/rails-app-on-docker-using-passenger-image.html
 # Expose Nginx HTTP service

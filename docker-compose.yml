@@ -10,8 +10,7 @@ web:
     - db
   volumes:
     - "/webapp:/home/app/webapp"
-#db:
-#  image: tray/dynamodb-local
-#  command: "-inMemory"
-#  ports:
-#    - "8000:8000"
+db:
+  image: postgres
+  ports:
+    - "5432"
