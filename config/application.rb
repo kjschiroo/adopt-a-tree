@@ -33,5 +33,10 @@ module AdoptAThing
         file "#{Rails.root}/config/config.local.yml"
       end
     end
+
+    #######################
+    # React Configuraiton
+    #######################
+    config.react.addons = true
   end
 end
