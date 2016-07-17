@@ -324,6 +324,7 @@ DEPENDENCIES
   guard-rspec
   haml
   jquery-rails
+  jquery-ui-rails
   launchy
   libnotify
   pg
