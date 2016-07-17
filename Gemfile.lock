@@ -344,6 +344,7 @@ DEPENDENCIES
   haml
   jasmine-rails
   jquery-rails
+  jquery-ui-rails
   launchy
   libnotify
   pg
