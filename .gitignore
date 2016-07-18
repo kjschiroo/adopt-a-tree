@@ -23,6 +23,9 @@
 # Ignore dotenv
 .env
 
+# Ignore generated javascript translations
+/public/javascripts/translations.js
+
 # Ignore other things
 *swp
 *~
